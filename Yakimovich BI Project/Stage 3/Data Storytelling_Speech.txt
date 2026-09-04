@@ -1,0 +1,44 @@
+Data Storytelling & Business Insights Report
+Project: Customer Lifecycle & Operations Analytics Suite
+
+
+Executive Summary
+In this report, I translate the insights from my Power BI solution into clear business actions. The solution connects big-picture metrics (revenue trends and product sales) with daily operational tools for managers. By analyzing customer data from 2020 to 2024, I found key trends in customer behavior, revenue risks, and bottlenecks that need our attention.
+
+1. Key Pattern Identification & Analysis
+Pattern 1: The "At-Risk" Revenue Paradox (Strategic Insight)
+What I found: Looking at the RFM segmentation, the "At Risk" group is huge. It holds 2,008 customers (about 40% of the total base) and brings in the largest share of historical revenue — over 1.27 billion. However, these customers haven't bought anything in a long time.
+Why this happened: These buyers brought in a lot of money during past peaks (like 2021–2022), but the company didn't follow up with retention campaigns as their activity dropped. They are our most valuable sleeping asset.
+How to fix it: Account managers should use the operational dashboard to filter specifically for At-Risk clients. By sorting them by high monetary value and targeting those who haven't bought anything in over 90 days, we can run personal win-back campaigns to recover this money.
+
+Pattern 2: The Churn Bottleneck (Strategic Insight)
+What I found: The inactivity chart on the operations page shows a heavy pile-up of dormant users. A massive chunk of the base—1,400 customers—has been inactive for 400+ days, and over 1,250 customers sit in the 201–400 day bracket. Only about 480 customers are in the healthy 0–30 day window. This pushes our average inactivity time for flagged groups up to 408 days.
+Why this happened: The business has a "leaky bucket" problem. While new sales keep coming in, once a customer makes their first purchase, nobody follows up. Without automated reminders or retention emails, customers naturally drift past the 90-day mark and end up in the 400+ day graveyard.
+How to fix it:
+-Immediate fix: Managers should use the color-coded table on the operations page to spot the deep red rows (400+ days) and offer special discounts to reactivate them.
+-Long-term fix: Set up automated email sequences at Day 30 and Day 60 to encourage second purchases before customers slip into the risky 90+ day zone.
+
+Pattern 3: Revenue Stability vs. Stagnant Growth (Operational Insight)
+What I found: Looking at the quarterly performance on the first page, total revenue is massive (2.66 billion across 28.41K orders), but the quarterly growth trend fluctuates tightly. While product lines (Laptops, Headphones, Tablets, Smartphones, and Coffee Machines) share the revenue pie almost equally at roughly 20% each (Page 2), the quarterly revenue bars show very little upward momentum over time.
+Why this happened: The business relies heavily on a steady baseline of standard sales, but lacks strong drivers for net-new market expansion or cross-category upselling. Products are performing uniformly, meaning nothing is truly breaking out or scaling aggressively.
+How to fix it: Instead of spreading marketing budgets evenly across all five product lines, leadership should bundle products (e.g., combining Laptops with Headphones) or launch targeted promotional campaigns in quarters that historically show dips to break the flat-growth ceiling.
+
+Pattern 4: The "At-Risk" Concentration Trap (Operational Insight)
+What I found: The RFM segmentation page reveals a critical financial risk: our highest-earning customer group is actually the "At Risk" segment, holding 1.27 billion in historical value (across 2,008 customers). Meanwhile, our healthiest segment, the "Champions", holds 862.7 million (1,015 customers) and drives about 32% of total revenue share, with a high average revenue per customer (~850k).
+Why this happened: Past marketing efforts successfully acquired and monetized a huge volume of clients, but customer retention strategy failed to secure them. A massive chunk of company wealth is currently locked in accounts that are drifting away.
+How to fix it: The director needs to shift strategic focus from acquisition to retention and protection of core assets. We must allocate budget toward VIP loyalty programs for the Champions to keep them from slipping, while funding automated reactivation initiatives for the At-Risk portfolio.
+
+
+
+DEMO SPEECH TEXT:
+Good morning/afternoon. Today, I am excited to present our new Customer Lifecycle & Operations Analytics Suite. I built this tool to bridge the gap between high-level business strategy and daily operations.
+First, looking at our executive overview (Pages 1 & 2):
+We see a massive and stable total revenue of 2.66 billion across over 28,000 orders. Our product lines—Laptops, Headphones, Tablets, Smartphones, and Coffee Machines—are performing very evenly, each capturing around 20% of the market share. However, our quarterly growth trend is quite flat. This tells us that while our baseline sales are strong, we lack strong drivers for net-new growth. To fix this, leadership should focus on product bundling or targeted promotions during slower quarters.
+
+Second, looking at our customer portfolio (Page 3):
+Our RFM segmentation reveals a major hidden risk. Our largest customer group is the 'At-Risk' segment, holding 1.27 billion in historical value across 2,000+ customers. Meanwhile, our healthy 'Champions' generate about 32% of total revenue. This means a massive chunk of our company wealth is currently locked in accounts that are quietly drifting away because we didn't follow up with retention campaigns after their initial purchases.
+
+Finally, how do we fix this operationally? (Page 4):
+This is where the Customer Operations Action Center comes in. On the operations page, we see a severe bottleneck: over 1,400 customers have been inactive for more than 400 days, pushing our average inactivity time to 408 days, with nearly 1.87 billion in At-Risk revenue potential.
+
+Instead of guessing who to call, account managers can now open this dashboard, use the color-coded risk table, and instantly spot high-value clients sitting in the red zone. They can run targeted win-back campaigns today to recover this capital. In short: the strategic views show leadership where the money is, and the operational view gives managers the exact tools to save it.

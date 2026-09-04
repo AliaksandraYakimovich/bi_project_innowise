@@ -1,0 +1,59 @@
+STEP 1:
+
+Requirement Gathering Cheat Sheet:
+
+-Focus on the problem, not the request: If someone asks for a specific chart or layout, ask what decision they need to make based on it. Often, the real business need is entirely different from what they initially describe.
+-Separate Strategic Dashboards from Operational Tools: Never mix high-level trends and financial KPIs for directors with granular queue tracking and row-level statuses for managers. They serve completely different daily workflows.
+-Enforce the 24-Hour Action Rule: If a metric fluctuates but the user cannot take a direct action or countermeasure within 24 hours to change it, remove it from the primary dashboard view to reduce noise.
+-Lock Down Definitions Early: Get clear, explicit agreement on business terms before writing any code. Clarify exact definitions for states like a "completed transaction" or an "active client" to prevent trust issues later.
+-Clarify Data Freshness and Access Rights Upfront: Check whether stakeholders expect real-time data or a nightly batch update, and immediately identify who needs restricted access.
+
+
+The Interrogation for the Director: 
+What are the main strategic decisions or investments you are trying to make right now that lack sufficient data backing?
+When you check the core metrics, what are the top three performance indicators that tell you if the business is hitting its targets?
+How do you currently track shifts in customer value, and at what point does a change in customer segmentation require a change in our strategy?
+Which product lines or markets are currently carrying the highest performance risk or uncertainty?
+Who are the primary users for the executive view, and do we need to restrict access so regional managers only see their own areas?
+
+
+The Interrogation for the Operations Manager:
+What parts of your current daily routine or manual status checks take up the most time before you can identify an operational issue?
+When a workflow delay or bottleneck happens, how quickly does your team usually catch it, and through what channels?
+Could you walk through the standard lifecycle of a transaction, and pinpoint the exact steps where delays happen most often?
+What specific threshold or indicator on a daily report would you need to see to know an issue requires immediate intervention?
+Do you need the ability to export operational data to Excel for daily follow-up, or do you prefer tracking exceptions directly within the dashboard?
+
+
+Business Reflection: 
+Putting all metrics on one screen destroy focus from strategic information.
+Metric: A measurable value, which shows a raw number or fact without explaining the cause or the next steps.
+Actionable insights: An interpretation of data, which pinpoints the root cause and defines the required operational response.
+
+
+
+STEP 2: 
+
+BRD:
+1. Executive Summary: To build practical dashboards using the prepared data marts. The project is split into two parts: a strategic dashboard for the director (high-level KPIs, trends, and customer segmentation) and an operational tool for the manager (tracking order statuses, delays, and processing times).
+2. Target Audience & User Personas: 
+-Director: Needs a high-level view of finances, regions, product categories, and customer value to drive management decisions. 
+-Operations Manager: Needs a daily control tool to track stuck orders, monitor transaction statuses, and analyze processing speed.
+3. Key Metrics & KPIs: 
+-Total Revenue: Sum of quantity multiplied by price.
+-Average Order Value: Total revenue divided by the number of successful transactions.
+-Total Orders: Sum of unique transactions
+-RFM Segmentation: Evaluating customers based on recency, frequency, and monetary value to identify key cohorts.
+-At-Risk Customers: Total count of unactive customers showing early signs of churn and declining engagement.
+-Avg Days Inactive (At Risk): Average number of days since the last purchase, calculated exclusively for the problematic customer base (recency > 90 days).
+-Overdue Customers Count: Number of critically stalled customers whose days without purchase exceed the established operational threshold (90+ days).
+-At-Risk Revenue Potential: Total historical revenue tied to dormant or overdue accounts that require immediate re-engagement.
+4. Functional Requirements: 
+-Navigation: Switching between strategic dashboard views and operational tabs using interactive buttons, bookmarks, and page navigation.
+-Filtering: Cross-filtering enabled across all visuals—selecting a category, segment, or region on one component automatically updates data across the entire page.
+-Operational Action Center (Customer Operations): A dedicated, focus-driven page tailored for operations and account managers. It includes an inactivity distribution funnel (Activity Group buckets ranging from 0-30 days to 90+ days) and interactive slicers for customer segments and statuses.
+-Anomaly Highlighting (Conditional Formatting): Automated soft-palette color coding applied to the Customer Action List table rows based on customer inactivity length (soft yellow for 30–90 days, and progressive red gradients for periods >90 days), enabling managers to instantly spot high-risk accounts.
+5. Non-Functional & Technical Requirements:
+-Data Freshness: Daily synchronization from the PostgreSQL database.
+-Security: Setting up Row-Level Security so users only see their designated area of responsibility.
+-Performance: Visual rendering and calculation times must remain under 2 seconds.
