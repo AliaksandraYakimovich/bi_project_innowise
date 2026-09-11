@@ -54,6 +54,9 @@ BRD:
 -Operational Action Center (Customer Operations): A dedicated, focus-driven page tailored for operations and account managers. It includes an inactivity distribution funnel (Activity Group buckets ranging from 0-30 days to 90+ days) and interactive slicers for customer segments and statuses.
 -Anomaly Highlighting (Conditional Formatting): Automated soft-palette color coding applied to the Customer Action List table rows based on customer inactivity length (soft yellow for 30–90 days, and progressive red gradients for periods >90 days), enabling managers to instantly spot high-risk accounts.
 5. Non-Functional & Technical Requirements:
+-Explicit DAX Measures & Aggregations: All financial metrics (Total Revenue, Average Order Value, ARPU) must use explicit DAX measures leveraging SUMX instead of implicit sums, filtered strictly by completed transactions ('mart_fact_sales'[status] = "Completed") to prevent data duplication.
 -Data Freshness: Daily synchronization from the PostgreSQL database.
 -Security: Setting up Row-Level Security so users only see their designated area of responsibility.
 -Performance: Visual rendering and calculation times must remain under 2 seconds.
+-Operational Proxy Justification: Due to the transactional data structure containing a single timestamp per order (lack of secondary order-closing timestamp), customer inactivity (RFM Recency in days) is utilized as the operational proxy metric for tracking churn risk and identifying account stagnation thresholds on the Customer Operations page.
+-Security Architecture (RLS): Multi-role Row-Level Security implemented directly on dimension tables, featuring Director (full access), Operations Manager (restricted by city and specific RFM segments (Sleeping and At Risk)), and Guest (strict fallback using FALSE()).
