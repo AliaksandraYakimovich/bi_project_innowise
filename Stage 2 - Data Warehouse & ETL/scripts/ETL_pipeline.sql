@@ -8,8 +8,6 @@ CREATE SCHEMA mart;
 
 DROP TABLE IF EXISTS temp_prepared_facts;
 
-DROP TABLE IF EXISTS stage.raw_transactions CASCADE;
-
 
 /*STAGE*/
 
@@ -78,6 +76,8 @@ CREATE TABLE core.dim_branch (
     region TEXT,
     department TEXT,
     manager TEXT,
+    lat NUMERIC(10, 6),
+    lon NUMERIC(10, 6),
     CONSTRAINT uq_branch_location UNIQUE (branch, city, country, region, department, manager)
 );
 
@@ -119,7 +119,9 @@ CREATE TABLE core.fact_transactions (
     branch VARCHAR(100),
     department VARCHAR(100),
     city VARCHAR(100),
-    country VARCHAR(100)
+    country VARCHAR(100),
+    lat NUMERIC(10, 6), 
+    lon NUMERIC(10, 6)
 );
 
 
@@ -151,6 +153,18 @@ filtered_data AS (
         transaction_date,
         customer_id,
         region, branch, department, city, country, manager,
+        CASE branch
+            WHEN 'Branch A' THEN 52.2297 WHEN 'Branch B' THEN 52.5200 
+            WHEN 'Branch C' THEN 48.8566 WHEN 'Branch D' THEN 50.0755 
+            WHEN 'Branch E' THEN 48.2082 WHEN 'Branch F' THEN 40.4168 
+            ELSE 50.0000 
+        END AS lat,
+        CASE branch
+            WHEN 'Branch A' THEN 21.0122 WHEN 'Branch B' THEN 13.4050 
+            WHEN 'Branch C' THEN 2.3522  WHEN 'Branch D' THEN 14.4378 
+            WHEN 'Branch E' THEN 16.3738 WHEN 'Branch F' THEN -3.7038 
+            ELSE 10.0000 
+        END AS lon,
 		CASE 
             WHEN LOWER(TRIM(raw_product_name)) LIKE 'h%' THEN 'Headphones'
             WHEN LOWER(TRIM(raw_product_name)) LIKE 's%' OR LOWER(TRIM(raw_product_name)) LIKE 'phone%' THEN 'Smartphone'
@@ -192,7 +206,8 @@ SELECT
     COALESCE(f.price, m.product_median_price, 0) AS price,
     f.payment_method, 
     f.transaction_status,
-    f.region, f.branch, f.department, f.city, f.country, f.manager
+    f.region, f.branch, f.department, f.city, f.country, f.manager,
+    f.lat, f.lon
 FROM filtered_data f
 LEFT JOIN medians m ON f.product_name = m.product_name;
 
@@ -206,14 +221,16 @@ ON CONFLICT (product_name) DO UPDATE
 SET base_price = EXCLUDED.base_price;
 
 
-INSERT INTO core.dim_branch (branch, city, country, region, department, manager)
+INSERT INTO core.dim_branch (branch, city, country, region, department, manager, lat, lon)
 SELECT DISTINCT 
     branch, 
     city, 
     country, 
     region, 
     department, 
-    manager
+    manager,
+    lat,
+    lon
 FROM temp_prepared_facts
 WHERE branch IS NOT NULL
 ON CONFLICT (branch, city, country, region, department, manager) DO NOTHING;
@@ -277,7 +294,7 @@ WHERE NOT EXISTS (
 INSERT INTO core.fact_transactions (
     transaction_id, transaction_date, customer_sk, product_id, branch_id,
     quantity, price, payment_method, transaction_status,
-    region, branch, department, city, country
+    region, branch, department, city, country, lat, lon
 )
 SELECT 
     pf.transaction_id, 
@@ -289,7 +306,7 @@ SELECT
     pf.price, 
     pf.payment_method, 
     pf.transaction_status,
-    pf.region, pf.branch, pf.department, pf.city, pf.country
+    pf.region, pf.branch, pf.department, pf.city, pf.country, pf.lat, pf.lon
 FROM temp_prepared_facts pf
 JOIN core.dim_product p ON pf.product_name = p.product_name
 LEFT JOIN core.dim_customer dc 
@@ -323,7 +340,9 @@ SELECT
     country,
     region,
     department,
-    manager
+    manager,
+    lat,
+    lon
 FROM core.dim_branch;
 
 ALTER TABLE mart.dim_branch ADD PRIMARY KEY (branch_id);
@@ -337,7 +356,9 @@ SELECT DISTINCT
     country,
     region,
     department,
-    manager
+    manager,
+    lat,
+    lon
 FROM mart.dim_branch;
 
 ALTER TABLE mart.branch ADD PRIMARY KEY (branch_id);
@@ -411,24 +432,28 @@ CREATE TABLE mart.fact_sales (
     branch VARCHAR(100),
     department VARCHAR(100),
     city VARCHAR(100),
-    country VARCHAR(100)
+    country VARCHAR(100),
+    manager VARCHAR(100),
+    lat NUMERIC(10, 6),
+    lon NUMERIC(10, 6)
 );
 
 
 INSERT INTO mart.fact_sales (
     transaction_id, transaction_date, customer_id, customer_sk, product_id, branch_id,
     quantity, price, total_amount, payment_method, transaction_status,
-    region, branch, department, city, country
+    region, branch, department, city, country, manager, lat, lon
 )
 SELECT 
     f.transaction_id, f.transaction_date, dc.customer_id, f.customer_sk, f.product_id, f.branch_id,
     f.quantity, f.price,
     ROUND(f.quantity * f.price, 2) AS total_amount,
     f.payment_method, f.transaction_status,
-    f.region, f.branch, f.department, f.city, f.country
+    b.region, b.branch, b.department, b.city, b.country, b.manager, b.lat, b.lon 
 FROM core.fact_transactions f
 JOIN core.dim_product p ON f.product_id = p.product_id
 JOIN core.dim_customer dc ON f.customer_sk = dc.customer_sk
+LEFT JOIN core.dim_branch b ON f.branch_id = b.branch_id
 WHERE f.transaction_status = 'Completed';
 
 
