@@ -79,3 +79,8 @@ Implements the Business Intelligence presentation layer, documentation, business
 * **Data Engineering:** Python, Pandas, Jupyter Notebooks.
 * **Business Intelligence:** Power BI, DAX, data modeling.
 * **Version Control:** Git & GitHub.
+
+---
+## Dataset:
+
+https://www.kaggle.com/datasets/alfarisbachmid/dirty-financial-transactions-dataset
