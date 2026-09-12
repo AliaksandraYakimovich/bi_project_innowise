@@ -13,7 +13,7 @@ The architecture follows a rigorous multi-layer approach (`Stage` -> `Core` -> `
 The project is structured into three consecutive evolutionary stages, separating raw data, transformation scripts, architectural diagrams, and analytical dashboards:
 
 ### 📁 Stage 1 — Data Ingestion & Exploratory Data Analysis (EDA)
-Focuses on profiling raw datasets, identifying anomalies, handling missing values, and performing initial exploratory checks.
+Focuses on profiling raw datasets, identifying data quality anomalies, handling missing values, and performing initial exploratory checks.
 
 | File / Path | Description |
 | :--- | :--- |
@@ -32,22 +32,22 @@ Covers database schema deployment, staging transformations, relational modeling,
 | `Stage 2 - Data Warehouse & ETL/data/delta_load.csv` | Incremental data updates designed to test pipeline flexibility and delta loading. |
 | `Stage 2 - Data Warehouse & ETL/data/dim_customer_rfm.csv` | Processed customer dimension dataset mapped for historical tracking. |
 | `Stage 2 - Data Warehouse & ETL/data/dirty_financial_transactions.csv` | Backup copy of raw transactions referenced during pipeline stress-testing. |
-| `Stage 2 - Data Warehouse & ETL/scripts/Script_etl.sql` | Core SQL script creating database schemas (`stage`, `core`, `mart`), tables, constraints, and ETL data flows. |
+| `Stage 2 - Data Warehouse & ETL/scripts/ETL_pipeline.sql` | Core SQL script creating database schemas (`stage`, `core`, `mart`), tables, constraints, and ETL data flows. |
 | `Stage 2 - Data Warehouse & ETL/scripts/stage_2.ipynb` | Jupyter Notebook automating pipeline execution and verifying transformation logic. |
-| `Stage 2 - Data Warehouse & ETL/diagrams/ERD.png` | Entity-Relationship Diagram outlining the relational Data Warehouse schema. |
-| `Stage 2 - Data Warehouse & ETL/diagrams/DFD.pdf` | Data Flow Diagram illustrating architectural layers and data movement. |
+| `Stage 2 - Data Warehouse & ETL/diagrams/ERD.pdf` | Entity-Relationship Diagram outlining the relational Data Warehouse schema. |
+| `Stage 2 - Data Warehouse & ETL/diagrams/DFD.jpg` | Data Flow Diagram illustrating architectural layers and data movement. |
 
 ### 📁 Stage 3 — Analytics, Reporting & Quality Assurance
 Implements the Business Intelligence presentation layer, documentation, business requirements, and validation checks.
 
 | File / Path | Description |
 | :--- | :--- |
-| `Stage 3 - Analytics & BI/dashboards/Customer_Lifecycle_Operations_Dashboard.pbix` | Final interactive Power BI dashboard. |
+| `Stage 3 - Analytics & BI/dashboards/Customer_Lifecycle_Operations_Dashboard.pbix` | Final interactive Power BI dashboard containing strategic and operational views. |
+| `Stage 3 - Analytics & BI/dashboards/Mockups.pdf` | UI/UX visual layout wireframes and dashboard design mockups. |
 | `Stage 3 - Analytics & BI/docs/RGCS_BRD.txt` | Business Requirements Document (BRD) defining project scope, metrics, and KPI formulas. |
-| `Stage 3 - Analytics & BI/docs/Mockups.pdf` | UI/UX visual layout wireframes and dashboard design mockups. |
-| `Stage 3 - Analytics & BI/docs/Data Storytelling Speech.txt` | Structured presentation script for defending the project findings. |
+| `Stage 3 - Analytics & BI/docs/Data Storytelling_Speech.txt` | Structured presentation script and storytelling report for defending project findings. |
 | `Stage 3 - Analytics & BI/validation/data_validation.sql` | SQL queries utilized to cross-check database calculation aggregates against Power BI visuals. |
-| `Stage 3 - Analytics & BI/validation/at_risk_count_validation.png` | Visual QA verification screenshot for at-risk customer segment counts. |
+| `Stage 3 - Analytics & BI/validation/at_risk_customers_validation.png` | Visual QA verification screenshot for At-Risk customer segment counts. |
 | `Stage 3 - Analytics & BI/validation/average_order_value_validation.png` | Visual QA verification screenshot for Average Order Value (AOV) metrics. |
 | `Stage 3 - Analytics & BI/validation/total_revenue_validation.png` | Visual QA verification screenshot confirming Total Revenue calculations. |
 
