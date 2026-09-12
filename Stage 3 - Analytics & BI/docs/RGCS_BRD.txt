@@ -34,28 +34,38 @@ Actionable insights: An interpretation of data, which pinpoints the root cause a
 
 STEP 2: 
 
-BRD:
-1. Executive Summary: To build practical dashboards using the prepared data marts. The project is split into two parts: a strategic dashboard for the director (high-level KPIs, trends, and customer segmentation) and an operational tool for the manager (tracking order statuses, delays, and processing times).
+Business Requirements Document (BRD)
+Project: Customer Lifecycle & Operations Analytics Suite
+
+1. Executive Summary: To build practical dashboards using the prepared data marts, strictly avoiding synthetic data generation. The project is split into two distinct parts adhering to the strict separation of strategic vs. operational workflows: a high-level strategic dashboard for the director (high-level KPIs, macro trends, and customer segmentation) and an operational control tool for the manager (tracking order statuses, delays, inactivity thresholds, and daily intervention lists).
+
 2. Target Audience & User Personas: 
 -Director: Needs a high-level view of finances, regions, product categories, and customer value to drive management decisions. 
--Operations Manager: Needs a daily control tool to track stuck orders, monitor transaction statuses, and analyze processing speed.
+-Operations Manager / Regional Manager: Needs a daily control tool to track stuck orders, monitor transaction statuses, analyze processing speed, and manage operational customer queues.
+-Security Architecture & UI Segregation (RLS): Multi-role Row-Level Security implemented directly on dimension tables, featuring Director (full enterprise access), Operations Manager (restricted by city/branch and specific RFM segments like 'Sleeping' and 'At Risk'), and Guest (strict fallback using FALSE()). To ensure data security, UI-level and row-level scoping is enforced so regional managers physically see only their respective branch boundaries (e.g., Warsaw).
+
 3. Key Metrics & KPIs: 
--Total Revenue: Sum of quantity multiplied by price.
+-Total Revenue: Sum of quantity multiplied by price, utilizing explicit DAX measures filtered strictly by completed transactions ('mart_fact_sales'[status] = "Completed") to prevent data duplication.
 -Average Order Value: Total revenue divided by the number of successful transactions.
--Total Orders: Sum of unique transactions
+-Total Orders: Sum of unique transactions.
+-Quarter-over-Quarter Growth: Time intelligence metric tracking short-term financial fluctuations and baseline momentum across quarters.
 -RFM Segmentation: Evaluating customers based on recency, frequency, and monetary value to identify key cohorts.
 -At-Risk Customers: Total count of unactive customers showing early signs of churn and declining engagement.
 -Avg Days Inactive (At Risk): Average number of days since the last purchase, calculated exclusively for the problematic customer base (recency > 90 days).
 -Overdue Customers Count: Number of critically stalled customers whose days without purchase exceed the established operational threshold (90+ days).
 -At-Risk Revenue Potential: Total historical revenue tied to dormant or overdue accounts that require immediate re-engagement.
+-Operational Proxy Justification (Recency vs. Interval): Due to the legacy transactional database structure containing only a single timestamp per order (lack of secondary order-closing timestamps), customer inactivity (RFM Recency in days) is utilized as the operational proxy metric for tracking churn risk and account stagnation, completely avoiding artificial synthetic data creation.
+
 4. Functional Requirements: 
--Navigation: Switching between strategic dashboard views and operational tabs using interactive buttons, bookmarks, and page navigation.
+-Navigation & UI Bookmarks: Switching between strategic dashboard views and operational tabs using custom UI bookmarks, page-switching action buttons, and interactive containers ensuring smooth, app-like navigation.
+-Strategic vs. Operational Separation: Clear structural boundary established between executive strategic views (high-level KPIs, revenue distribution) and operational management tools (detailed queue tracking and action lists) to eliminate workflow noise.
+-Geographical Map & Drill-Down Hierarchy: Includes an interactive geographical sales map with category-level breakdowns, paired with a multi-level drill-down management hierarchy visual (Manager -> Branch/City -> Product Category) to enforce spatial data exploration.
 -Filtering: Cross-filtering enabled across all visuals—selecting a category, segment, or region on one component automatically updates data across the entire page.
 -Operational Action Center (Customer Operations): A dedicated, focus-driven page tailored for operations and account managers. It includes an inactivity distribution funnel (Activity Group buckets ranging from 0-30 days to 90+ days) and interactive slicers for customer segments and statuses.
 -Anomaly Highlighting (Conditional Formatting): Automated soft-palette color coding applied to the Customer Action List table rows based on customer inactivity length (soft yellow for 30–90 days, and progressive red gradients for periods >90 days), enabling managers to instantly spot high-risk accounts.
+
 5. Non-Functional & Technical Requirements:
 -Explicit DAX Measures & Aggregations: All financial metrics (Total Revenue, Average Order Value, ARPU) must use explicit DAX measures leveraging SUMX instead of implicit sums, filtered strictly by completed transactions ('mart_fact_sales'[status] = "Completed") to prevent data duplication.
--Data Freshness: Daily synchronization from the PostgreSQL database.
 -Security: Setting up Row-Level Security so users only see their designated area of responsibility.
 -Performance: Visual rendering and calculation times must remain under 2 seconds.
 -Operational Proxy Justification: Due to the transactional data structure containing a single timestamp per order (lack of secondary order-closing timestamp), customer inactivity (RFM Recency in days) is utilized as the operational proxy metric for tracking churn risk and identifying account stagnation thresholds on the Customer Operations page.

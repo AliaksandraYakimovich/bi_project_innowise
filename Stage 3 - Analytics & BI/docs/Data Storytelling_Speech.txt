@@ -32,11 +32,14 @@ How to fix it: The director must shift strategic focus toward protecting core as
 DEMO SPEECH TEXT:
 Good morning/afternoon. Today, I am excited to present our new Customer Lifecycle & Operations Analytics Suite. I built this tool to bridge the gap between high-level business strategy and daily operations.
 
-First, looking at our executive overview (Pages 1 & 2):
-We see a stable total revenue baseline of $1.178bn across 13K orders, serving 4,602 total customers. Our product lines—Laptops, Tablets, Smartphones, Headphones, and Coffee Machines—are performing very evenly, each capturing around 20% of the market share. However, our quarterly growth trend remains flat, indicating strong baseline sales but a need for targeted bundling or promotions to drive net-new growth.
+First, on the data architecture and engineering side:
+Before building the visuals, I designed a star schema in PostgreSQL, separating our core transaction fact tables from dimensional tables like customers and products. To ensure high performance and prevent data duplication, all financial metrics are powered by explicit DAX measures. For instance, instead of using implicit sums that can duplicate rows in a star schema, I utilized SUMX combined with strict status filters ([status] = "Completed") to calculate Total Revenue accurately at a solid baseline of $1.178bn across 13K orders and 4,602 customers. Furthermore, for advanced calculations and percentage distributions, I leveraged context modifiers like REMOVEFILTERS and ALLSELECTED to compute accurate share-of-total ratios without breaking user slicers.
 
-Second, looking at our customer portfolio (Page 3):
-Our RFM segmentation reveals a major hidden risk. Our largest customer group is the 'At-Risk' segment, comprising 1,973 customers. Meanwhile, our healthy 'Champions' generate 28% of total revenue. This means a massive share of company value is locked in accounts that are drifting away due to a lack of follow-up retention campaigns.
+Second, looking at our executive overview (Pages 1 & 2):
+Our product lines—Laptops, Tablets, Smartphones, Headphones, and Coffee Machines—are performing very evenly, each capturing around 20% of the market share. However, our quarterly growth trend remains flat, indicating strong baseline sales but a need for targeted bundling or promotions to drive net-new growth.
+
+Third, looking at our customer portfolio (Page 3):
+Our RFM segmentation reveals a major hidden risk. Our largest customer group is the 'At-Risk' segment, comprising 1,973 customers. Meanwhile, our healthy 'Champions' generate 28% of total revenue. This means a massive share of company value is locked in accounts that are drifting away due to a lack of follow-up retention campaigns. To secure this environment, I implemented a multi-role Row-Level Security (RLS) architecture. By tying RLS rules directly to our dimension and security tables, we ensure that a regional manager—such as our Warsaw lead—physically sees only their respective branch boundaries and targeted customer risk tiers, completely isolating regional data views.
 
 Finally, how do we fix this operationally? (Page 4):
 This is where the Customer Operations Action Center comes in. On the operations page, we track 1,973 At-Risk customers with an average inactivity of 379 days, representing an At-Risk revenue potential of over $677.8 million. 
