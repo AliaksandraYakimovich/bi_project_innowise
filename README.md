@@ -42,7 +42,7 @@ Implements the Business Intelligence presentation layer, documentation, business
 
 | File / Path | Description |
 | :--- | :--- |
-| `Stage 3 - Analytics & BI/dashboards/Customer_Lifecycle_Operations_Dashboard.pbix` | Final interactive Power BI dashboard containing strategic and operational views. |
+| `Stage 3 - Analytics & BI/dashboards/Customer_Lifecycle_Operations.pbix` | Final interactive Power BI dashboard containing strategic and operational views. |
 | `Stage 3 - Analytics & BI/dashboards/Mockups.pdf` | UI/UX visual layout wireframes and dashboard design mockups. |
 | `Stage 3 - Analytics & BI/docs/RGCS_BRD.txt` | Business Requirements Document (BRD) defining project scope, metrics, and KPI formulas. |
 | `Stage 3 - Analytics & BI/docs/Data Storytelling_Speech.txt` | Structured presentation script and storytelling report for defending project findings. |
