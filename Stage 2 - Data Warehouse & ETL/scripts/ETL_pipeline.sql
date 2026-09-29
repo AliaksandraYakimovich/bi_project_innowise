@@ -25,7 +25,9 @@ CREATE TABLE stage.raw_transactions (
     country VARCHAR(100),
     region VARCHAR(100),
     department VARCHAR(100),
-    manager VARCHAR(100)
+    manager VARCHAR(100),
+    lat NUMERIC(10, 6), 
+    lon NUMERIC(10, 6)
 );
 
 CREATE TABLE stage.raw_rfm (
@@ -141,7 +143,9 @@ WITH cleaned_raw AS (
         TRIM(department) AS department,
         TRIM(city) AS city,
         TRIM(country) AS country,
-        TRIM(manager) AS manager
+        TRIM(manager) AS manager, 
+        lat,
+        lon
 		FROM stage.raw_transactions
     	WHERE TRIM(transaction_id) <> ''
 	      AND TRIM(customer_id) <> ''
@@ -152,19 +156,7 @@ filtered_data AS (
         transaction_id,
         transaction_date,
         customer_id,
-        region, branch, department, city, country, manager,
-        CASE branch
-            WHEN 'Branch A' THEN 52.2297 WHEN 'Branch B' THEN 52.5200 
-            WHEN 'Branch C' THEN 48.8566 WHEN 'Branch D' THEN 50.0755 
-            WHEN 'Branch E' THEN 48.2082 WHEN 'Branch F' THEN 40.4168 
-            ELSE 50.0000 
-        END AS lat,
-        CASE branch
-            WHEN 'Branch A' THEN 21.0122 WHEN 'Branch B' THEN 13.4050 
-            WHEN 'Branch C' THEN 2.3522  WHEN 'Branch D' THEN 14.4378 
-            WHEN 'Branch E' THEN 16.3738 WHEN 'Branch F' THEN -3.7038 
-            ELSE 10.0000 
-        END AS lon,
+        region, branch, department, city, country, manager, lat, lon, 
 		CASE 
             WHEN LOWER(TRIM(raw_product_name)) LIKE 'h%' THEN 'Headphones'
             WHEN LOWER(TRIM(raw_product_name)) LIKE 's%' OR LOWER(TRIM(raw_product_name)) LIKE 'phone%' THEN 'Smartphone'
@@ -455,7 +447,6 @@ JOIN core.dim_product p ON f.product_id = p.product_id
 JOIN core.dim_customer dc ON f.customer_sk = dc.customer_sk
 LEFT JOIN core.dim_branch b ON f.branch_id = b.branch_id
 WHERE f.transaction_status = 'Completed';
-
 
 
 /* A fintech platform tracks merchant transactions alongside the customer's risk or value tier. 
